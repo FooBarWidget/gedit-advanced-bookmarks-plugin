@@ -19,6 +19,9 @@
           <menuitem name="ToggleBookmark" action="ToggleBookmark"/>
           <menuitem name="ToggleBookmarkAdvanced" action="ToggleBookmarkAdvanced"/>
           <menuitem name="EditBookmark" action="EditBookmark"/>
+	  <separator/>
+	  <menuitem name="PrevBookmark" action="PrevBookmark"/>
+	  <menuitem name="NextBookmark" action="NextBookmark"/>
         </placeholder>
       </menu>
     </placeholder>

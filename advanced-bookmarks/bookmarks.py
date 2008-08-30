@@ -120,6 +120,30 @@ class bookmark_list(object):
         except:
             return False
         
+    def get_previous(self, uri, line):
+        smallest_distance = None
+        found = None
+        for l in self._list[uri]["iters"]:
+            if l < line and (smallest_distance == None or line - l < smallest_distance):
+                smallest_distance = line - l
+                found = l
+        if found:
+            return found
+        else:
+            return None
+        
+    def get_next(self, uri, line):
+        smallest_distance = None
+        found = None
+        for l in self._list[uri]["iters"]:
+            if l > line and (smallest_distance == None or l - line < smallest_distance):
+                smallest_distance = l - line
+                found = l
+        if found:
+            return found
+        else:
+            return None
+    
     def toggle(self, uri, line, source, comment = ""): # Adds or removes a line for an uri
         if self.exists(uri, line):
             self.delete(uri, line)

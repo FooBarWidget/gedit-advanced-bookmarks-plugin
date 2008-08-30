@@ -184,6 +184,12 @@ class window_helper:
         self._act_edit.connect("activate", self._on_edit_clicked)
         self._act_edit.set_sensitive(False)
         
+        self._act_prev = gtk.Action("PrevBookmark", _("_Prev Bookmark"), _("Go to the previous bookmark that's reachable from the current line"), None)
+        self._act_prev.connect("activate", self._on_prev_clicked)
+        
+        self._act_next = gtk.Action("NextBookmark", _("_Next Bookmark"), _("Go to the next bookmark that's reachable from the current line"), None)
+        self._act_next.connect("activate", self._on_next_clicked)
+        
         self._act_nb = gtk.Action("NumberedBookmarks", _("_Numbered Bookmarks"), _("Numbered bookmarks"), None)
         hot_key = 0
         self._act_hot_key = {}
@@ -197,6 +203,8 @@ class window_helper:
         self._action_group.add_action_with_accel(self._act_toggle, "<Ctrl>b")
         self._action_group.add_action_with_accel(self._act_toggle_adv, "<Ctrl><Shift>b")
         self._action_group.add_action_with_accel(self._act_edit, "<Ctrl><Alt>b")
+        self._action_group.add_action_with_accel(self._act_prev, "<Ctrl>Page_Up")
+        self._action_group.add_action_with_accel(self._act_next, "<Ctrl>Page_Down")
 
         # Insert action group
         manager.insert_action_group(self._action_group, -1)
@@ -462,6 +470,35 @@ class window_helper:
             row = cursor[0][0]
 
             self._on_row_activated(self._tree, row, 0)
+
+    # Returns a 3-tuple containing the current document, its URI and the current line that the cursor is at.
+    # All elements are None if no open document is currently open.
+    def _get_uri_and_line(self):
+        doc = self._window.get_active_document()
+        if doc:
+            uri = doc.get_uri()
+        else:
+            uri = None
+        if uri:
+            text_iter = doc.get_iter_at_mark(doc.get_insert())
+            line = text_iter.get_line() + 1
+        else:
+            line = None
+        return (doc, uri, line)
+        
+    def _on_prev_clicked(self, btn):
+        doc, uri, line = self._get_uri_and_line()
+        if uri:
+            new_line = self._bookmarks.get_previous(uri, line)
+            if new_line:
+                doc.goto_line(new_line - 1)
+    
+    def _on_next_clicked(self, btn):
+        doc, uri, line = self._get_uri_and_line()
+        if uri:
+            new_line = self._bookmarks.get_next(uri, line)
+            if new_line:
+                doc.goto_line(new_line - 1)
 
     def _on_tree_clicked(self, tree, event):
     	if event.button == 3:

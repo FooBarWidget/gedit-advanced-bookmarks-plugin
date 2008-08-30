@@ -508,6 +508,7 @@ class window_helper:
             new_line = self._bookmarks.get_previous(uri, line)
             if new_line:
                 doc.goto_line(new_line - 1)
+                self._window.get_active_view().scroll_to_cursor()
     
     def _on_next_clicked(self, btn):
         doc, uri, line = self._get_uri_and_line()
@@ -515,6 +516,7 @@ class window_helper:
             new_line = self._bookmarks.get_next(uri, line)
             if new_line:
                 doc.goto_line(new_line - 1)
+                self._window.get_active_view().scroll_to_cursor()
 
     def _on_tree_clicked(self, tree, event):
     	if event.button == 3:

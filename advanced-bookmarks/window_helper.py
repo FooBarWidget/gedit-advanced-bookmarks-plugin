@@ -175,20 +175,26 @@ class window_helper:
         
         self._act_ab = gtk.Action("AdvancedBookmarks", _("_Bookmarks"), _("Bookmarks"), None)
 
-        self._act_toggle = gtk.Action("ToggleBookmark", _("_Toggle"), _("Toggle bookmark"), None)
+        self._act_toggle = gtk.Action("ToggleBookmark", _("_Toggle"), _("Toggle bookmark"), gtk.STOCK_APPLY)
         self._act_toggle.connect("activate", self._on_toggle_bookmark)
         
         self._act_toggle_adv = gtk.Action("ToggleBookmarkAdvanced", _("Toggle & E_dit"), _("Toggle bookmark, and change its comments if it's on"), None)
         self._act_toggle_adv.connect("activate", self._on_toggle_bookmark, True)
         
-        self._act_edit = gtk.Action("EditBookmark", _("_Edit Current Bookmark"), _("Change the comment for the bookmark that the cursor is on"), None)
+        self._act_edit = gtk.Action("EditBookmark", _("_Edit Current Bookmark"),
+            _("Change the comment for the bookmark that the cursor is on"),
+            gtk.STOCK_EDIT)
         self._act_edit.connect("activate", self._on_edit_clicked)
         self._act_edit.set_sensitive(False)
         
-        self._act_prev = gtk.Action("PrevBookmark", _("_Prev Bookmark"), _("Go to the previous bookmark that's reachable from the current line"), None)
+        self._act_prev = gtk.Action("PrevBookmark", _("_Prev Bookmark"),
+            _("Go to the previous bookmark that's reachable from the current line"),
+            gtk.STOCK_GO_UP)
         self._act_prev.connect("activate", self._on_prev_clicked)
         
-        self._act_next = gtk.Action("NextBookmark", _("_Next Bookmark"), _("Go to the next bookmark that's reachable from the current line"), None)
+        self._act_next = gtk.Action("NextBookmark", _("_Next Bookmark"),
+            _("Go to the next bookmark that's reachable from the current line"),
+            gtk.STOCK_GO_DOWN)
         self._act_next.connect("activate", self._on_next_clicked)
         
         self._act_nb = gtk.Action("NumberedBookmarks", _("_Numbered Bookmarks"), _("Numbered bookmarks"), None)

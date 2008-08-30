@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# kate: space-indent on; indent-width 4; mixedindent off;
 
 #  Copyright (C) 2008 - Eugene Khorev
 #

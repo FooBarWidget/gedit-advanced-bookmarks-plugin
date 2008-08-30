@@ -28,6 +28,7 @@ import sys
 import pango
 import bookmarks
 import toggle_dlg
+from gtk import gdk
 
 class window_helper:
     def __init__(self, plugin, window, bookmarks, config):
@@ -366,6 +367,21 @@ class window_helper:
         
         # Setup document load handler
         doc.connect("loaded", self._on_doc_loaded)
+        
+        # Since for some reason the Previous/Next Bookmark menu item's accelerator
+        # doesn't work, we hook into the editor view directly.
+        view = tab.get_view()
+        view.connect("key-press-event", self._on_view_key_press)
+
+    def _on_view_key_press(self, view, event):
+        if event.keyval == gtk.keysyms.Page_Up and event.state == (gdk.CONTROL_MASK | gdk.MOD2_MASK):
+            self._on_prev_clicked(None)
+            view.stop_emission("key-press-event")
+            return True
+        elif event.keyval == gtk.keysyms.Page_Down and event.state == (gdk.CONTROL_MASK | gdk.MOD2_MASK):
+            self._on_next_clicked(None)
+            view.stop_emission("key-press-event")
+            return True
 
     def _on_tab_removed(self, window, tab):
         docs = window.get_documents()

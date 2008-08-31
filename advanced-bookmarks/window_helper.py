@@ -210,8 +210,8 @@ class window_helper:
         self._action_group.add_action_with_accel(self._act_toggle, "<Ctrl>b")
         self._action_group.add_action_with_accel(self._act_toggle_adv, "<Ctrl><Shift>b")
         self._action_group.add_action_with_accel(self._act_edit, "<Ctrl><Alt>b")
-        self._action_group.add_action_with_accel(self._act_prev, "<Ctrl>Page_Up")
-        self._action_group.add_action_with_accel(self._act_next, "<Ctrl>Page_Down")
+        self._action_group.add_action_with_accel(self._act_prev, "<Alt>Page_Up")
+        self._action_group.add_action_with_accel(self._act_next, "<Alt>Page_Down")
 
         # Insert action group
         manager.insert_action_group(self._action_group, -1)
@@ -373,21 +373,6 @@ class window_helper:
         
         # Setup document load handler
         doc.connect("loaded", self._on_doc_loaded)
-        
-        # Since for some reason the Previous/Next Bookmark menu item's accelerator
-        # doesn't work, we hook into the editor view directly.
-        view = tab.get_view()
-        view.connect("key-press-event", self._on_view_key_press)
-
-    def _on_view_key_press(self, view, event):
-        if event.keyval == gtk.keysyms.Page_Up and event.state == (gdk.CONTROL_MASK | gdk.MOD2_MASK):
-            self._on_prev_clicked(None)
-            view.stop_emission("key-press-event")
-            return True
-        elif event.keyval == gtk.keysyms.Page_Down and event.state == (gdk.CONTROL_MASK | gdk.MOD2_MASK):
-            self._on_next_clicked(None)
-            view.stop_emission("key-press-event")
-            return True
 
     def _on_tab_removed(self, window, tab):
         docs = window.get_documents()

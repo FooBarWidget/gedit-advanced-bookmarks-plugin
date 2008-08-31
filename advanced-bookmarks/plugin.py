@@ -129,7 +129,7 @@ class AdvancedBookmarksPlugin(gedit.Plugin):
             self._config.set("common", "highlighting", "on")
         
         if not self._config.has_option("common", "highlight_color"):
-            self._config.set("common", "highlight_color", "#FFF0DC")
+            self._config.set("common", "highlight_color", "#E1CDEF")
         
     def write_config(self): # Saves configuration to a file
         self._conf_file.truncate(0)
